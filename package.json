@@ -1,0 +1,29 @@
+{
+  "name": "mvc-tech-blog",
+  "version": "1.0.0",
+  "description": "This is a tech blog where you can find out about the latest conversations in technology. ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xvirix/tech-blog.git"
+  },
+  "author": "Viridiana Ortiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xvirix/tech-blog/issues"
+  },
+  "homepage": "https://github.com/xvirix/tech-blog#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^9.0.2",
+    "express-handlebars": "^5.3.2",
+    "express-session": "^1.17.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.2"
+  }
+}
