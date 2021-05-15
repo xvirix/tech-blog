@@ -13,22 +13,22 @@ const commentData = [
   },
   {
     comment_text: "I don't even know how to ride a bike.",
-    post_id: 4,
+    post_id: 5,
     user_id: 2
   },
   {
     comment_text: "HAnDLeBaRs iS So EaSy.",
-    post_id: 4,
+    post_id: 5,
     user_id: 3
   },
   {
     comment_text: "Heck yeah, I'd love to date an AI!!!",
-    post_id: 5,
+    post_id: 6,
     user_id: 1
   },
   {
     comment_text: "What weirdo would date an AI...O.o",
-    post_id: 5,
+    post_id: 6,
     user_id: 4
   },
 ];

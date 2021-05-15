@@ -4,28 +4,23 @@ const router = require('express').Router();
 const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// Routes
-
 router.get('/', (req, res) => {
-    Comment.findAll()
-      // return the data as JSON formatted
+    Comment.findAll({})
       .then(dbCommentData => res.json(dbCommentData))
-      // if there is a server error, return that error
       .catch(err => {
         console.log(err);
         res.status(500).json(err);
       });
-  });
+});
 
-// Post a new comment
 router.post('/', withAuth, (req, res) => {
-  // check the session, and if it exists, create a comment
+  // check the session
   if (req.session) {
     Comment.create({
       comment_text: req.body.comment_text,
       post_id: req.body.post_id,
-      // use the user id from the session
-      user_id: req.session.user_id
+      // use the id from the session
+      user_id: req.session.user_id,
     })
       .then(dbCommentData => res.json(dbCommentData))
       .catch(err => {
@@ -35,7 +30,6 @@ router.post('/', withAuth, (req, res) => {
   }
 });
 
-// Delete a comment
 router.delete('/:id', withAuth, (req, res) => {
     Comment.destroy({
         where: {
@@ -53,6 +47,6 @@ router.delete('/:id', withAuth, (req, res) => {
           console.log(err);
           res.status(500).json(err);
         });
-    });
+});
 
 module.exports = router;
