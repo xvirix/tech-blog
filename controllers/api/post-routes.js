@@ -37,39 +37,35 @@ router.get('/', (req, res) => {
       });
   });
 
-  router.get('/:id', (req, res) => {
-    Post.findOne({
-      where: {
-        id: req.params.id
-      },
+  router.get('/', (req, res) => {
+    console.log(req.session);
+    Post.findAll({
       attributes: [
         'id',
         'title',
-        'created_at',
         'post_text'
       ],
       include: [
-        // include the Comment model here:
-        {
-          model: User,
-          attributes: ['username', 'twitter', 'github']
-        },
         {
           model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          attributes: ['id', 'comment_text', 'post_id', 'user_id'],
           include: {
             model: User,
             attributes: ['username', 'twitter', 'github']
           }
+        },
+        {
+          model: User,
+          attributes: ['username', 'twitter', 'github']
         }
       ]
     })
       .then(dbPostData => {
-        if (!dbPostData) {
-          res.status(404).json({ message: 'No post found with this id' });
-          return;
-        }
-        res.json(dbPostData);
+        const posts = dbPostData.map(post => post.get({ plain: true }));
+        res.render('homepage', {
+            posts,
+            loggedIn: req.session.loggedIn
+          });
       })
       .catch(err => {
         console.log(err);
