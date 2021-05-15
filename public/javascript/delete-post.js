@@ -1,22 +1,26 @@
-// A function to delete a post
 async function deleteFormHandler(event) {
-    event.preventDefault();
-
-    // get the post id from the url
-    const id = window.location.toString().split('/')[
-        window.location.toString().split('/').length - 1
-        ];
-    // delete the post with an async function
-    const response = await fetch(`/api/posts/${id}`, {
-        method: 'DELETE'
-      });
-    // If the delete action is successful, redirect to the dashboard page; otherwise display the error
-    if (response.ok) {
-        document.location.replace('/dashboard');
-     
-      } else {
-        alert(response.statusText);
-      }
-  }
+  event.preventDefault();
   
-  document.querySelector('.delete-post-btn').addEventListener('click', deleteFormHandler);
+  const id = window.location.toString().split('/')[
+      window.location.toString().split('/').length - 1
+    ];
+
+  const response = await fetch(`/api/posts/${id}`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        post_id: id
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (response.ok) {
+      document.location.replace('/dashboard/');
+    } else {
+      alert(response.statusText);
+    }
+  
+}
+
+document.querySelector('.delete-post-btn').addEventListener('click', deleteFormHandler);
