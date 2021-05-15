@@ -6,7 +6,7 @@ const withAuth = require('../utils/auth')
 
 // A route to render the dashboard page, only for a logged in user
 router.get('/', withAuth, (req, res) => {
-    // All of the users posts are obtained from the database
+    // Posts are obtained from the db
     Post.findAll({
       where: {
         // use the ID from the session
@@ -34,7 +34,7 @@ router.get('/', withAuth, (req, res) => {
       ]
     })
       .then(dbPostData => {
-        // serialize data before passing to template
+        // serialize data before going into template
         const posts = dbPostData.map(post => post.get({ plain: true }));
         res.render('dashboard', { posts, loggedIn: true });
       })
