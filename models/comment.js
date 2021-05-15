@@ -5,7 +5,7 @@ const sequelize = require('../config/connection');
 // the Comment model extends the sequelize model 
 class Comment extends Model {}
 
-// define the table columns and configuration, similar to the setup for the other models
+// define the table columns and configuration
 Comment.init(
     {
       id: {
