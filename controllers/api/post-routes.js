@@ -3,59 +3,18 @@ const { Post, User, Comment } = require('../../models');
 const sequelize = require('../../config/connection');
 const withAuth = require('../../utils/auth');
 
-if (!req.session.isLoggedIn) {
-  res.redirect('/login')
-  } else {
-  console.log(req.session);
-      Post.findAll({
+// get all users
+router.get('/', withAuth,(req, res) => {
+    console.log('======================');
+    Post.findAll({
         attributes: [
-          'id',
-          'title',
-          'post_text'
+            'id',
+            'title',
+            'post_text'
         ],
-        include: [
-          {
-            model: Comment,
-            attributes: ['id', 'comment_text', 'post_id', 'user_id'],
-            include: {
-              model: User,
-              attributes: ['username', 'twitter', 'github']
-            }
-          },
-          {
-            model: User,
-            attributes: ['username', 'twitter', 'github']
-          }
-        ]
-      })
-        .then(dbPostData => {
-          const posts = dbPostData.map(post => post.get({ plain: true }));
-          res.render('homepage', {
-              posts,
-              loggedIn: req.session.loggedIn
-            });
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json(err);
-        });
-  }
-  router.get('/:id', (req, res) => {
-    Post.findOne({
-      where: {
-        id: req.params.id
-      },
-      attributes: [
-        'id',
-        'title',
-        'post_text'
-      ],
+      order: [['DESC']],
       include: [
-        // include the Comment model here:
-        {
-          model: User,
-          attributes: ['username', 'twitter', 'github']
-        },
+        // Comment model here -- attached username to comment
         {
           model: Comment,
           attributes: ['id', 'comment_text', 'post_id', 'user_id'],
@@ -63,20 +22,18 @@ if (!req.session.isLoggedIn) {
             model: User,
             attributes: ['username', 'twitter', 'github']
           }
-        }
+        },
+        {
+          model: User,
+          attributes: ['username', 'twitter', 'github']
+        },
       ]
     })
-      .then(dbPostData => {
-        if (!dbPostData) {
-          res.status(404).json({ message: 'No post found with this id' });
-          return;
-        }
-        res.json(dbPostData);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+      .then(dbPostData => res.json(dbPostData))
+     // .catch(err => {
+       // console.log(err);
+        //res.status(500).json(err);
+      //});
   });
 
 router.post('/', withAuth, (req, res) => {
